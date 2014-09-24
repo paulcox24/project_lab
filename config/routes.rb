@@ -1,11 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'project_members/new'
-
-  get 'project_members/create'
-
-  get 'project_members/destroy'
-
   root 'projects#index'
  
 
@@ -18,7 +12,6 @@ Rails.application.routes.draw do
   end
 
   resources :users, :only => [:show, :index]
-  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
