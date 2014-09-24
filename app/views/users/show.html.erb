@@ -1,49 +1,56 @@
 <h1><%= @user.name%></h1>
 <p><%= @user.email%></p>
 <p><%= @user.phone%></p>
+<div class="container-fluid">
+  <div class="row" >
+    <div class="col-sm-6">
+      <h3>Projects <%= @user.name %> is a team member of</h3>
+      <ul>
+        <% @user.projects.each do |project| %>
+          <li><%= link_to project.name, project%></li>
+        <% end %>
+      </ul>
+    </div>  
 
-<h2>Projects <%= @user.name %> is a team member of</h2>
-<ul>
-  <% @user.projects.each do |project| %>
-    <li><%= link_to project.name, project%></li>
-  <% end %>
-</ul>
+    <div class="col-sm-6">
+      <h3>Projects <%= @user.name %> owns</h3>
+      <ul>
+        <% Project.where(creator: @user).each do |project| %>
 
-<h2>Projects <%= @user.name %> owns</h2>
-<ul>
-  <% Project.where(creator: @user).each do |project| %>
+          <li><%= link_to project.name, project%></li>
+        <% end %>
+      </ul>
+    </div>  
+  </div>
 
-    <li><%= link_to project.name, project%></li>
-  <% end %>
-</ul>
-
-<h2>Tasks assigned to <%= @user.name %></h2>
-<table class='table'>
-  <thead>
-    <tr>
-      <th>Project Name</th>
-      <th>Task Name</th>
-      <th>Description</th>
-      <th>Assigned to</th>
-      <th>Task Creator</th>
-      <th>Delivery Minutes</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @user.tasks.each do |task| %>
+  <h3>Tasks assigned to <%= @user.name %></h3>
+  <table class='table'>
+    <thead>
       <tr>
-        <td><%= Project.all.find(task.project_id).name %></td>
-        <td><%= task.name %></td>
-        <td><%= task.description %></td>
-        <td><%= User.all.find(task.user_id).name %></td>
-        <td><%= task.creator %></td>
-        <td><%= task.delivery_minutes %></td>
-        <td><%= task.is_completed? ? 'Completed' : "Incomplete" %></td>
+        <th>Project Name</th>
+        <th>Task Name</th>
+        <th>Description</th>
+        <th>Assigned to</th>
+        <th>Task Creator</th>
+        <th>Delivery Minutes</th>
+        <th>Status</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @user.tasks.each do |task| %>
+        <tr>
+          <td><%= Project.all.find(task.project_id).name %></td>
+          <td><%= task.name %></td>
+          <td><%= task.description %></td>
+          <td><%= User.all.find(task.user_id).name %></td>
+          <td><%= task.creator %></td>
+          <td><%= task.delivery_minutes %></td>
+          <td><%= task.is_completed? ? 'Completed' : "Incomplete" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <% if @user == current_user %>
 <%= link_to 'Edit Account', edit_user_registration_path(@user), class: 'btn btn-default'%> 
