@@ -25,7 +25,7 @@ progress and remaining tasks.
         <td><%= project.name %></td>
         <td><%= project.description %></td>
         <td><%= project.due_date_at.localtime.strftime("%A, %b %-d, %Y  %l:%M%p") %></td>
-        <td><%= project.creator %></td>
+        <td><%= project.creator.name %></td>
         <td><%= link_to 'View', project, class: 'btn btn-xs btn-default' %></td>
         <td><%= link_to 'Edit', edit_project_path(project), class: 'btn btn-xs btn-default' %></td>
         <td><%= link_to 'Delete', project, class: 'btn btn-xs btn-default', method: :delete, 
