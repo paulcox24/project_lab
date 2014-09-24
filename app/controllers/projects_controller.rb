@@ -33,11 +33,15 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    if @project.update(project_params)
-      redirect_to @project, notice: 'Project was successfully updated.'
+    if @user == @project.creator
+      if @project.update(project_params)
+        redirect_to @project, notice: 'Project was successfully updated.'
+      else
+        render :edit 
+      end
     else
-      render :edit
-    end
+      redirect_to @project, alert: "Only #{@project.creator.name} can edit this project"
+    end  
   end
 
   def destroy
