@@ -9,8 +9,8 @@
 
 <h3>Members:</h3>
 <ul>
-  <% @project.users.each do |member|%>
-    <li><%= member.name %>
+  <% @project.members.each do |member|%>
+    <li><%= link_to member.name, user_path(member) %>
       <%= link_to 'Delete', project_project_member_path(@project.id,member.project_members.find_by(project_id: @project.id, user_id: member.id).id), method: :delete, 
                                 data: {
                                   confirm: 'Are you sure you want to delete this member?'}, class: "btn btn-xs btn-default"  %>
