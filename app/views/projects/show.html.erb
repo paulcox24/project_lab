@@ -28,7 +28,7 @@
     <p>
       <strong class="task_name"><%= task.name %></strong>
     <br>
-      Created by: <%= task.creator%>
+      Created by: <%= User.find(task.creator_id).name %>
     <br>
       Assigned to: <%= task.user.name %>
     <br>

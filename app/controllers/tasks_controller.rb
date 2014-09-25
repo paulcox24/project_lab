@@ -13,13 +13,13 @@ class TasksController < ApplicationController
   def new
     @project = Project.find(params[:project_id])
     @task = Task.new
-    @task.creator = current_user.name
+    @task.creator_id = current_user.id
   end
 
   def create
     @project = Project.find(params[:project_id])
     @task = @project.tasks.build(task_params)
-    @task.creator = current_user.name
+    @task.creator_id = current_user.id
 
     if @project.members.include? @user
       if @task.save
@@ -36,7 +36,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    if @user == @task.user || @user.name == @task.creator
+    if @user == @task.user || @user.id == @task.creator_id
       @project = Project.find(params[:project_id])
       if @task.update(task_params)
         redirect_to @project, notice: 'Task was successfully updated.'
@@ -49,17 +49,17 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    if @user == @task.user || @user.name == @task.creator
+    if @user.id == @task.creator_id
       @task.destroy
       redirect_to @task.project, notice: 'Task was successfully deleted.'
     else
-      redirect_to @task.project, alert: "Tasks can only be deleted by assigned member"
+      redirect_to @task.project, alert: "Tasks can only be deleted by their creator"
     end   
   end
 
   private
   def task_params
-    params.require(:task).permit(:name, :description, :delivery_minutes, :is_completed, :project_id, :user_id, :creator)
+    params.require(:task).permit(:name, :description, :delivery_minutes, :is_completed, :project_id, :user_id, :creator_id)
   end
 
   def set_task

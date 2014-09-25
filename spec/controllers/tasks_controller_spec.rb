@@ -4,7 +4,7 @@ RSpec.describe TasksController, :type => :controller do
 
   before { single_login_user(create(:login_user)) }
   let(:project) { create(:second_project) }
-  let(:task) { create(:task_one, project: project, user: @user) }
+  let!(:task) { create(:task_one, project: project, user: @user, creator_id: @user.id) }
   let!(:member) {create(:project_member, project: project, user: @user )}
 
 
@@ -168,12 +168,13 @@ RSpec.describe TasksController, :type => :controller do
       expect(response).to redirect_to project
     end
 
-    context 'user is not assigned task' do
+    context 'user is not task creator' do
       it 'redirects to project' do
         user = FactoryGirl.create(:login_user)
         project = FactoryGirl.create(:random_project, creator: user)
-        task = FactoryGirl.create(:random_task, user: user, project: project)
-        delete :destroy, project_id: project.id, id: task
+        task = FactoryGirl.create(:random_task, user: user, project: project, creator_id: user.id)
+        expect{
+          delete :destroy, project_id: project.id, id: task}.to change(Task,:count).by(0)
         expect(response).to redirect_to project
       end
     end

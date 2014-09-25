@@ -34,7 +34,7 @@ User.all.each do |user|
       delivery_minutes: 10,
       is_completed: false,
       project_id: project.id,
-      creator: user.name,
+      creator_id: user.id,
       user_id: user.id == 1 ? 5 : user.id - 1)
   end
 end
