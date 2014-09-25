@@ -45,8 +45,12 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task.destroy
-    redirect_to projects_url, notice: 'Task was successfully deleted.'
+    if @user == @task.user
+      @task.destroy
+      redirect_to projects_url, notice: 'Task was successfully deleted.'
+    else
+      redirect_to @task.project, alert: "Tasks can only be deleted by assigned member"
+    end   
   end
 
   private

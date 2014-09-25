@@ -153,6 +153,15 @@ RSpec.describe TasksController, :type => :controller do
       delete :destroy, project_id: project.id, id: task
       expect(response).to redirect_to projects_url
     end
-  end
 
+    context 'user is not assigned task' do
+      it 'redirects to project' do
+        user = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user)
+        task = FactoryGirl.create(:random_task, user: user, project: project)
+        delete :destroy, project_id: project.id, id: task
+        expect(response).to redirect_to project
+      end
+    end
+  end
 end
