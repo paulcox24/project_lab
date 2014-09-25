@@ -63,6 +63,9 @@ RSpec.describe TasksController, :type => :controller do
         user = FactoryGirl.create(:login_user)
         project = FactoryGirl.create(:random_project, creator: user)
         post :create, project_id: project.id, task: FactoryGirl.attributes_for(:task_two)
+        expect{
+          post :create, project_id: project.id, task: FactoryGirl.attributes_for(:task_two)
+        }.to change(Task,:count).by(0)
         expect(response).to redirect_to project
       end
     end

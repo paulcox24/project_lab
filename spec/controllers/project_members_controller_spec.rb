@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProjectMembersController, :type => :controller do
 
   before { single_login_user(create(:login_user)) }
-  let!(:project) { create(:second_project) }
+  let!(:project) { create(:second_project, creator: @user) }
 
   describe 'GET new' do
     it 'returns http success' do
@@ -20,6 +20,18 @@ RSpec.describe ProjectMembersController, :type => :controller do
           post :create, project_id: project.id,
                         project_member: {user_id: 1}
         }.to change(ProjectMember,:count).by(1)
+      end
+    end
+
+    context 'user is not creator' do
+      it 'should redirect to the project page' do
+        user = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user)
+        expect{
+          post :create, project_id: project.id,
+                        project_member: {user_id: 1}
+        }.to change(ProjectMember,:count).by(0)
+        expect(response).to redirect_to project
       end
     end
 

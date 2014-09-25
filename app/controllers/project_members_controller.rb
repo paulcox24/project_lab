@@ -1,5 +1,6 @@
 class ProjectMembersController < ApplicationController
   before_action :set_project
+  before_action :find_user
 
   def new
     @project_member = ProjectMember.new
@@ -8,11 +9,15 @@ class ProjectMembersController < ApplicationController
   def create
     @project_member = @project.project_members.build(project_member_params)
 
-    if @project_member.save
-      redirect_to project_path(@project)
+    if @user == @project.creator
+      if @project_member.save
+        redirect_to project_path(@project)
+      else
+        render :new
+      end
     else
-      render :new
-    end
+      redirect_to @project, alert: "Only project creator can add members"   
+    end  
   end
 
   def destroy
@@ -28,5 +33,10 @@ class ProjectMembersController < ApplicationController
 
   def set_project
     @project = Project.find(params[:project_id])
+  end
+
+  def find_user
+    @user = current_user
+    @users = User.all
   end
 end
