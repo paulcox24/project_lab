@@ -94,7 +94,7 @@ RSpec.describe ProjectsController, :type => :controller do
     context 'not project creator' do
       it "does not change @project's attributes" do
         user1 = FactoryGirl.create(:login_user)
-        project1 = FactoryGirl.create(:random_project, creator: user1)
+        project = FactoryGirl.create(:random_project, creator: user1)
         binding.pry
         patch :update, id: project, 
           project: FactoryGirl.attributes_for(:project, name: 'newname', description: ('a' * 50))
@@ -104,6 +104,8 @@ RSpec.describe ProjectsController, :type => :controller do
       end
     
       it 'redirects to the project' do
+        user1 = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user1)
         patch :update, id: project, project: FactoryGirl.attributes_for(:second_project)
         expect(response).to redirect_to project
       end
