@@ -51,9 +51,9 @@
       <% end %>
     </tbody>
   </table>
-</div>
 
-<% if @user == current_user %>
-<%= link_to 'Edit Account', edit_user_registration_path(@user), class: 'btn btn-default'%> 
-<% end %> 
-<%= link_to 'Back', users_path, class: 'btn btn-default' %>
+  <% if @user == current_user %>
+  <%= link_to 'Edit Account', edit_user_registration_path(@user), class: 'btn btn-default'%> 
+  <% end %> 
+  <%= link_to 'Back', users_path, class: 'btn btn-default' %>
+</div>
