@@ -45,8 +45,12 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.destroy
-    redirect_to projects_path, notice: 'Project was successfully deleted.'
+    if @user == @project.creator
+      @project.destroy
+      redirect_to projects_path, notice: 'Project was successfully deleted.'
+    else
+      redirect_to @project, alert: "Only #{@project.creator.name} can delete this project"
+    end  
   end
 
   private

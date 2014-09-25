@@ -144,6 +144,15 @@ RSpec.describe ProjectsController, :type => :controller do
       delete :destroy, id: project
       expect(response).to redirect_to projects_url
     end
+
+    context "user is not project creator" do
+      it 'redirects to project' do
+        user = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user)
+        delete :destroy, id: project
+        expect(response).to redirect_to project
+      end
+    end
   end
 
 end
