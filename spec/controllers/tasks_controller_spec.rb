@@ -151,7 +151,7 @@ RSpec.describe TasksController, :type => :controller do
       
     it 'redirects to project' do
       delete :destroy, project_id: project.id, id: task
-      expect(response).to redirect_to projects_url
+      expect(response).to redirect_to project
     end
 
     context 'user is not assigned task' do

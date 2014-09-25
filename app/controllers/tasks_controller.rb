@@ -32,7 +32,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    if @user == @task.user
+    if @user == @task.user || @user.name == @task.creator
       @project = Project.find(params[:project_id])
       if @task.update(task_params)
         redirect_to @project, notice: 'Task was successfully updated.'
@@ -45,9 +45,9 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    if @user == @task.user
+    if @user == @task.user || @user.name == @task.creator
       @task.destroy
-      redirect_to projects_url, notice: 'Task was successfully deleted.'
+      redirect_to @task.project, notice: 'Task was successfully deleted.'
     else
       redirect_to @task.project, alert: "Tasks can only be deleted by assigned member"
     end   
