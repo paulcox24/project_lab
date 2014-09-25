@@ -5,6 +5,8 @@ RSpec.describe TasksController, :type => :controller do
   before { single_login_user(create(:login_user)) }
   let(:project) { create(:second_project) }
   let(:task) { create(:task_one, project: project, user: @user) }
+  let!(:member) {create(:project_member, project: project, user: @user )}
+
 
   describe 'GET index' do
     it 'successfully gets the index page' do
@@ -53,6 +55,15 @@ RSpec.describe TasksController, :type => :controller do
       it 'redirects to the task page upon save' do
         post :create, project_id: project.id, task: FactoryGirl.attributes_for(:task_two)
         expect(response).to redirect_to(Project.last)
+      end
+    end
+
+    context 'user is not project member' do
+      it 'redirects back to the task' do
+        user = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user)
+        post :create, project_id: project.id, task: FactoryGirl.attributes_for(:task_two)
+        expect(response).to redirect_to project
       end
     end
 
