@@ -93,14 +93,13 @@ RSpec.describe ProjectsController, :type => :controller do
     
     context 'not project creator' do
       it "does not change @project's attributes" do
-        user1 = FactoryGirl.create(:login_user)
-        project = FactoryGirl.create(:random_project, creator: user1)
-        binding.pry
+        user = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user)
         patch :update, id: project, 
           project: FactoryGirl.attributes_for(:project, name: 'newname', description: ('a' * 50))
         project.reload
-        expect(project.name).to eq(project.name)
-        expect(project.description).to eq(project.description)
+        expect(project.name).to_not eq("newname")
+        expect(project.description).to_not eq(('a' * 50))
       end
     
       it 'redirects to the project' do

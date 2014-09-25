@@ -32,12 +32,16 @@ class TasksController < ApplicationController
   end
 
   def update
-    @project = Project.find(params[:project_id])
-    if @task.update(task_params)
-      redirect_to @project, notice: 'Task was successfully updated.'
+    if @user == @task.user
+      @project = Project.find(params[:project_id])
+      if @task.update(task_params)
+        redirect_to @project, notice: 'Task was successfully updated.'
+      else
+        render :edit
+      end
     else
-      render :edit
-    end
+      redirect_to @task.project, alert: "Tasks can only be edited by assigned member"
+    end    
   end
 
   def destroy

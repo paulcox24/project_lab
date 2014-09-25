@@ -20,5 +20,11 @@ FactoryGirl.define do
       description "This is the task description. This is the task description."
       delivery_minutes "four"
     end
+
+    factory :random_task do
+      sequence(:name) {|n| "Task#{n}"}
+      description "This is the task description. This is the task description. This is the task description."
+      delivery_minutes 20
+    end
   end
 end

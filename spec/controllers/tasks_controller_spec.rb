@@ -4,7 +4,7 @@ RSpec.describe TasksController, :type => :controller do
 
   before { single_login_user(create(:login_user)) }
   let(:project) { create(:second_project) }
-  let(:task) { create(:task_one, project: project) }
+  let(:task) { create(:task_one, project: project, user: @user) }
 
   describe 'GET index' do
     it 'successfully gets the index page' do
@@ -91,6 +91,29 @@ RSpec.describe TasksController, :type => :controller do
         patch :update, project_id: project.id, id: task,
                      task: FactoryGirl.attributes_for(:task_two)
         expect(response).to redirect_to Project.last
+      end
+    end
+
+    context 'user is not assigned task' do
+      it "doesn't changes @task's attributes" do
+        user = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user)
+        task = FactoryGirl.create(:random_task, user: user, project: project)
+        patch :update, project_id: project.id, id: task,
+                     task: FactoryGirl.attributes_for(:task_two,
+                     name: 'newtaskname', description: ('a' * 50))
+        task.reload
+        expect(task.name).to_not eq('newtaskname')
+        expect(task.description).to_not eq(('a' * 50))
+      end
+    
+      it 'redirects back to the project' do
+        user = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user)
+        task = FactoryGirl.create(:random_task, user: user, project: project)
+        patch :update, project_id: project.id, id: task,
+                     task: FactoryGirl.attributes_for(:task_two)
+        expect(response).to redirect_to project
       end
     end
     
