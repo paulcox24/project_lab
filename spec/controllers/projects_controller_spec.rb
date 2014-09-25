@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProjectsController, :type => :controller do
 
   before { single_login_user(create(:login_user)) }
-  let(:project) { create(:second_project) }
+  let!(:project) { create(:second_project, creator: @user) }
 
   describe 'GET index' do
     it 'successfully gets the index page' do
@@ -71,7 +71,7 @@ RSpec.describe ProjectsController, :type => :controller do
 
   describe 'PATCH update' do
     
-    context 'with valid attributes' do
+    context 'with valid attributes and is project creator' do
       it 'located the requested @project' do
         patch :update, id: project, project: FactoryGirl.attributes_for(:second_project)
         expect(assigns(:project)).to eq(project)      
@@ -91,6 +91,24 @@ RSpec.describe ProjectsController, :type => :controller do
       end
     end
     
+    context 'not project creator' do
+      it "does not change @project's attributes" do
+        user1 = FactoryGirl.create(:login_user)
+        project1 = FactoryGirl.create(:random_project, creator: user1)
+        binding.pry
+        patch :update, id: project, 
+          project: FactoryGirl.attributes_for(:project, name: 'newname', description: ('a' * 50))
+        project.reload
+        expect(project.name).to eq(project.name)
+        expect(project.description).to eq(project.description)
+      end
+    
+      it 'redirects to the project' do
+        patch :update, id: project, project: FactoryGirl.attributes_for(:second_project)
+        expect(response).to redirect_to project
+      end
+    end
+
     context 'invalid attributes' do
       it 'located the requested @project' do
         patch :update, id: project, project: FactoryGirl.attributes_for(:invalid_project)

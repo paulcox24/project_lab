@@ -19,5 +19,12 @@ FactoryGirl.define do
       due_date_at (Time.now + 1.month)
       association :creator, factory: :login_user
     end
+
+    factory :random_project do
+      sequence(:name) {|n| "Project#{n}"}
+      description 'MyText PartTwo MyText PartTwo MyText PartTwo MyText PartTwo MyText PartTwo'
+      due_date_at (Time.now + 1.month)
+      association :creator, factory: :login_user
+    end
   end
 end
