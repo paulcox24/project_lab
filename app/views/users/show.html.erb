@@ -39,7 +39,7 @@
     <tbody>
       <% @user.tasks.each do |task| %>
         <tr>
-          <td><%= Project.all.find(task.project_id).name %></td>
+          <td><%= task.project.name %></td>
           <td><%= task.name %></td>
           <td><%= task.description %></td>
           <td><%= User.all.find(task.user_id).name %></td>

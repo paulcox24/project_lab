@@ -1,6 +1,6 @@
 class Project < ActiveRecord::Base
-  has_many :tasks
-  has_many :project_members
+  has_many :tasks, dependent: :destroy
+  has_many :project_members, dependent: :destroy
   has_many :users, through: :project_members
   belongs_to  :creator, class_name: "User", foreign_key: 'user_id'
 
