@@ -21,7 +21,7 @@
     </thead>
 
     <tbody>
-      <% @projects.each do |project| %>
+      <% @user.projects.each do |project| %>
         <tr>
           <td><%= link_to project.name, project %></td>
           <td><%= project.description %></td>
