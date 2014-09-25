@@ -40,7 +40,7 @@
       <% @user.tasks.each do |task| %>
         <tr>
           <td><%= task.project.name %></td>
-          <td><%= task.name %></td>
+          <td><%= link_to task.name, task.project %></td>
           <td><%= task.description %></td>
           <td><%= User.all.find(task.user_id).name %></td>
           <td><%= task.creator %></td>
