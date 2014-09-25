@@ -54,6 +54,18 @@ RSpec.describe ProjectMembersController, :type => :controller do
       delete :destroy, project_id: project.id, id: FactoryGirl.create(:project_member)
       expect(response).to redirect_to project
     end
-  end
 
+    context 'user is not creator' do
+      it 'should redirect to the project page' do
+        user = FactoryGirl.create(:login_user)
+        project = FactoryGirl.create(:random_project, creator: user)
+        member = FactoryGirl.create(:project_member, project: project, user: user)
+        expect{
+          delete :destroy, project_id: project.id,
+                        id: member.id
+        }.to change(ProjectMember,:count).by(0)
+        expect(response).to redirect_to project
+      end
+    end
+  end
 end

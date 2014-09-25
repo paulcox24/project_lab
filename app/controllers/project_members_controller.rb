@@ -22,8 +22,12 @@ class ProjectMembersController < ApplicationController
 
   def destroy
     @project_member = ProjectMember.find(params[:id])
-    @project_member.destroy
-    redirect_to project_path(@project), notice: 'Member was successfully deleted.'
+    if @user == @project.creator
+      @project_member.destroy
+      redirect_to project_path(@project), notice: 'Member was successfully deleted.'
+    else
+      redirect_to @project, alert: "Only project creator can delete members"   
+    end  
   end
 
   private
