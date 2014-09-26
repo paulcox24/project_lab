@@ -1,6 +1,5 @@
 class ProjectMembersController < ApplicationController
   before_action :set_project
-  before_action :find_user
 
   def new
     @project_member = ProjectMember.new
@@ -9,7 +8,7 @@ class ProjectMembersController < ApplicationController
   def create
     @project_member = @project.project_members.build(project_member_params)
 
-    if @user == @project.creator
+    if current_user == @project.creator
       if @project_member.save
         redirect_to project_path(@project)
       else
@@ -22,7 +21,7 @@ class ProjectMembersController < ApplicationController
 
   def destroy
     @project_member = ProjectMember.find(params[:id])
-    if @user == @project.creator
+    if current_user == @project.creator
       @project_member.destroy
       redirect_to project_path(@project), notice: 'Member was successfully deleted.'
     else
@@ -37,10 +36,5 @@ class ProjectMembersController < ApplicationController
 
   def set_project
     @project = Project.find(params[:project_id])
-  end
-
-  def find_user
-    @user = current_user
-    @users = User.all
   end
 end
