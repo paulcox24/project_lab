@@ -46,11 +46,11 @@
   <h3>Tasks</h3>
   <div id="tasks">
     <%= f.fields_for :tasks do |task| %>
-      <%= render 'task_fields', f: task %>
+      <%= render 'tasks/task_fields', f: task %>
     
     <% end %>
     <div class='links'>
-      <%= link_to_add_association 'Add task', f, :tasks, class: "btn btn-default" %>
+      <%= link_to_add_association 'Add task', f, :tasks, partial: 'tasks/task_fields', class: "btn btn-default" %>
     </div>  
   </div>
   <%= f.submit 'Submit', class: 'btn btn-primary' %> 
