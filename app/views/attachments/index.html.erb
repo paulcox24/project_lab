@@ -1,5 +1,7 @@
 <h2>Project photos
-<%= link_to "Add Photo",'#addPhoto', data: {toggle: 'modal', target: '#addPhoto'}, class: "btn btn-primary" %></h2>
+  <%= link_to "Add Photo",'#addPhoto', data: {toggle: 'modal', target: '#addPhoto'}, class: "btn btn-primary" %>
+  <%= link_to "Back", project_path(@project), class: "btn btn-default" %>
+</h2>
 <ul class="media-list">
 <% @attachments.each do |attachment| %>
   <li>

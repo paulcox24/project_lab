@@ -1,7 +1,7 @@
 <h1><%= @project.name %></h1>
 <h3>Owner: <%= @project.creator.name %></h3>
 
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+<div id="carousel-example-generic" class="carousel slide carousel-height" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
     <% count = 0 %>
@@ -14,13 +14,13 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
     <div class="item active">
-      <%= image_tag @project.attachments.first.photo.url(:large), class: 'mg-responsive center-block'%>
+      <%= image_tag @project.attachments.first.photo.url(:large), class: 'img-responsive center-block carousel-height'%>
     </div>
 
     <% @project.attachments.each do |attachment| %>
       <% next if attachment ==   @project.attachments.first %>
         <div class="item">
-          <%= image_tag attachment.photo.url(:large), class: 'img-responsive center-block' %>
+          <%= image_tag attachment.photo.url(:large), class: 'img-responsive center-block carousel-height' %>
         </div>
     <% end %>
   </div>
