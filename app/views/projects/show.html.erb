@@ -1,11 +1,41 @@
 <h1><%= @project.name %></h1>
 <h3>Owner: <%= @project.creator.name %></h3>
 
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <% count = 0 %>
+    <% @project.attachments.each do |attachment| %>
+        <li data-target="#carousel-example-generic" data-slide-to="<%= count %>"</li>
+        <% count +=1 %>
+    <% end %>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    <div class="item active">
+      <%= image_tag @project.attachments.first.photo.url(:large), class: 'mg-responsive center-block'%>
+    </div>
+
+    <% @project.attachments.each do |attachment| %>
+      <% next if attachment ==   @project.attachments.first %>
+        <div class="item">
+          <%= image_tag attachment.photo.url(:large), class: 'img-responsive center-block' %>
+        </div>
+    <% end %>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
+
 <h3>Description:</h3>
 <p><%= @project.description %></p>
-<% @project.attachments.each do |attachment| %>
-  <p><%= image_tag attachment.photo.url(:medium) %></p>
-<% end %>
 
 <h3>Due Date:</h3>
 <p><%= @project.due_date_at.localtime.strftime("%A, %b %-d, %Y  %l:%M%p") %></p>
