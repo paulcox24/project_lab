@@ -2,6 +2,7 @@ class Project < ActiveRecord::Base
   has_many :tasks
   has_many :project_members
   has_many :users, -> {distinct}, through: :project_members
+  has_many :attachments
   belongs_to  :creator, class_name: "User", foreign_key: 'user_id'
 
   accepts_nested_attributes_for :tasks, reject_if: :all_blank, allow_destroy: true
