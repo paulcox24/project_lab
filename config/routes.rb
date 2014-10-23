@@ -1,11 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'attachments/new'
-
-  get 'attachments/create'
-
-  get 'attachments/destroy'
-
   namespace :admin do
     get 'stats', to: 'stats#index', as: 'stats'
   end
@@ -30,6 +24,7 @@ Rails.application.routes.draw do
   resources :projects do
     resources :tasks
     resources :project_members, :only => [:new, :create, :destroy]
+    resources :attachments, :only => [:new, :create, :destroy, :index]
   end
 
   resources :users, :only => [:show, :index]

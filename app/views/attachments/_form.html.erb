@@ -1,0 +1,33 @@
+<div class="container">
+<%= form_for [project, attachment], :url => project_attachments_path, :html => { :multipart => true } do |f| %>
+  <!-- Check if there were any errors saving project attachment and display them if so -->
+  <% if attachment.errors.any? %>
+  <div id='error_explanation'>
+    <h2><%= pluralize(attachment.errors.count, "error") %> prohibited
+        this attachment from being saved:</h2>
+    <ul>
+      <% attachment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+    <% end %>
+  </div>
+
+  <!-- Begin rendering the form -->
+  <div class= 'form-group'>
+    <div class="input-group">
+        <span class="input-group-btn">
+            <span class="btn btn-primary btn-file">
+                Browse&hellip; <%= f.file_field :photo %>
+            </span>
+        </span>
+        <input type="text" class="form-control" readonly>
+    </div>
+  </div>
+  
+  <p>
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+    <%= f.submit 'Submit', class: 'btn btn-success' %> 
+  </p>
+<% end %>
+</div>

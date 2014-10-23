@@ -1,0 +1,27 @@
+<h2>Project photos
+<%= link_to "Add Photo",'#addPhoto', data: {toggle: 'modal', target: '#addPhoto'}, class: "btn btn-primary" %></h2>
+<ul class="media-list">
+<% @attachments.each do |attachment| %>
+  <li>
+    <%= image_tag attachment.photo.url(:thumb) %> <%= link_to 'Delete', project_attachment_path(attachment.project, attachment), method: :delete, data: { confirm: 'Are you sure you want to delete this attachment?'}, class: "btn btn-danger" %>
+    <br></br>
+  </li>
+<% end %>
+</ul>
+
+ <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="addPhoto" tabindex="-1" role="dialog" aria-labelledby="newPhoto" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="newPhoto">New Photo</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: 'attachments/form', locals: {project: (@project || @attachment.project), attachment: (@attachment || @project.attachments.new ) }%>
+      </div>
+    </div>
+  </div>
+</div>
