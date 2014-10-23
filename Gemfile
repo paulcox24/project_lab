@@ -48,7 +48,6 @@ gem 'httparty'
 gem 'omniauth-github'
 gem 'dalli'
 gem 'kaminari'
-gem 'simple_form'
 gem 'paperclip'
 
 group :development, :test do
