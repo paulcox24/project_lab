@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'attachments/new'
+
+  get 'attachments/create'
+
+  get 'attachments/destroy'
+
   namespace :admin do
     get 'stats', to: 'stats#index', as: 'stats'
   end
