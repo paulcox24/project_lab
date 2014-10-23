@@ -251,6 +251,7 @@ GEM
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
     sexp_processor (4.4.4)
+    simple-image-uploader (0.1.5)
     simplecov (0.9.1)
       docile (~> 1.1.0)
       multi_json (~> 1.0)
@@ -322,6 +323,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
+  simple-image-uploader (~> 0.1.5)
   simplecov
   spring
   spring-commands-rspec

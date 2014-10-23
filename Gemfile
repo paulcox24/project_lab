@@ -48,6 +48,7 @@ gem 'httparty'
 gem 'omniauth-github'
 gem 'dalli'
 gem 'kaminari'
+gem 'simple-image-uploader', '~> 0.1.5'
 
 group :development, :test do
   gem 'dotenv-rails'
